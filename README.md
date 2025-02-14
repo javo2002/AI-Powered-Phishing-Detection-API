@@ -5,13 +5,13 @@ This project is a **Machine Learning-powered Phishing Detection API**, deployed 
 
 ## Screenshots
 ### Email Input Page
-![Email Input](screenshots/input_page.png)
+![Email Input](screenshots/screenshot1.png)
 
 ### Detection Result Page
-![Detection Result](screenshots/result_page.png)
+![Detection Result](screenshots/rscreenshot2.png)
 
 ### Extra Screenshot
-![Extra Screenshot](screenshots/extra_screenshot.png)
+![Extra Screenshot](screenshots/screenshot3.png)
 
 ## Deployment Architecture
 ```
