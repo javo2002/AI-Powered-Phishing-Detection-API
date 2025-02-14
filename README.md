@@ -10,7 +10,7 @@ This project is a **Machine Learning-powered Phishing Detection API**, deployed 
 ### Detection Result Page
 ![Detection Result](screenshots/rscreenshot2.png)
 
-### Extra Screenshot
+### Result Return button
 ![Extra Screenshot](screenshots/screenshot3.png)
 
 ## Deployment Architecture
