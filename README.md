@@ -79,7 +79,7 @@ Postman was used to test API requests and responses efficiently.
 <div style="display: flex; justify-content: space-around;">
   <img src="screenshots/screenshot1.png" alt="Email Input" width="30%">
   <img src="screenshots/screenshot2.png" alt="Detection Result" width="30%">
-  <img src="screenshots/screenshot3.png" alt="Extra Screenshot" width="30%">
+  <img src="screenshots/screenshot3.png" alt="Detection Result" width="30%">
 </div>
 
 ## Future Improvements
