@@ -3,6 +3,16 @@
 ## Overview
 This project is a **Machine Learning-powered Phishing Detection API**, deployed on a **webpage** to analyze email content and detect phishing attempts. The model processes email text, identifies phishing indicators, and provides a confidence score along with reasons for classification.
 
+## Screenshots
+### Email Input Page
+![Email Input](screenshots/input_page.png)
+
+### Detection Result Page
+![Detection Result](screenshots/result_page.png)
+
+### Extra Screenshot
+![Extra Screenshot](screenshots/extra_screenshot.png)
+
 ## Deployment Architecture
 ```
 +-------------------+       +-------------------+       +-----------------------+
@@ -74,13 +84,6 @@ Navigate to `http://127.0.0.1:5000` (or hosted domain) to test emails visually.
 
 ### Postman Testing
 Postman was used to test API requests and responses efficiently.
-
-## Screenshots
-<div style="display: flex; justify-content: space-around;">
-  <img src="screenshots/screenshot1.png" alt="Email Input" width="30%">
-  <img src="screenshots/screenshot2.png" alt="Detection Result" width="30%">
-  <img src="screenshots/screenshot3.png" alt="Detection Result" width="30%">
-</div>
 
 ## Future Improvements
 - Add support for **real-time email scanning**
