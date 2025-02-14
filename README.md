@@ -6,12 +6,15 @@ This project is a **Machine Learning-powered Phishing Detection API**, deployed 
 ## Screenshots
 ### Email Input Page
 ![Email Input](screenshots/screenshot1.png)
+This screenshot shows the user interface where users can input the email text they want to analyze. The page provides a text box for entering email content and a submit button to send the request to the phishing detection API.
 
 ### Detection Result Page
-![Detection Result](screenshots/rscreenshot2.png)
+![Detection Result](screenshots/screenshot2.png)
+This screenshot displays the results after an email is analyzed. It shows whether the email is classified as phishing or legitimate, along with a confidence score and explanations for the classification.
 
 ### Return button
 ![Returen Button](screenshots/screenshot3.png)
+The return Button returns you back to the input page.
 
 ## Deployment Architecture
 ```
