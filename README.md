@@ -1,101 +1,125 @@
-# Phishing Detection API
+```markdown
+# 📧 AI-Powered Phishing Detection System
 
-## Overview
-This project is a **Machine Learning-powered Phishing Detection API**, deployed on a **webpage** to analyze email content and detect phishing attempts. The model processes email text, identifies phishing indicators, and provides a confidence score along with reasons for classification.
+![Demo](screenshots/screenshot2.png)  
+*A machine learning system that analyzes email content to detect phishing attempts with explainable AI insights*
 
-## Screenshots
-### Email Input Page
-![Email Input](screenshots/screenshot1.png)
-This screenshot shows the user interface where users can input the email text they want to analyze. The page provides a text box for entering email content and a submit button to send the request to the phishing detection API.
+## ✨ Key Features
+- **Real-Time Phishing Detection**: Instantly classifies emails as phishing or legitimate
+- **AI Explanations**: Highlights suspicious words/phrases using SHAP values
+- **URL Analysis**: Checks links against VirusTotal and Google Safe Browsing
+- **Risk Visualization**: Interactive threat meter shows confidence level
+- **Historical Dashboard**: Track detection trends over time
 
-### Detection Result Page
-![Detection Result](screenshots/screenshot2.png)
-This screenshot displays the results after an email is analyzed. It shows whether the email is classified as phishing or legitimate, along with a confidence score and explanations for the classification.
+## 🛠️ Tech Stack
+**Core**  
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)  
+![Flask](https://img.shields.io/badge/Flask-2.0%2B-lightgrey?logo=flask)  
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.0%2B-orange?logo=scikit-learn)
 
-### Return button
-![Returen Button](screenshots/screenshot3.png)
-The return Button returns you back to the input page.
+**Frontend**  
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)  
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)  
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-yellow?logo=javascript)
 
-## Deployment Architecture
-```
-+-------------------+       +-------------------+       +-----------------------+
-|                   |       |                   |       |                       |
-|     VS Code       | ----> |      Docker        | ----> |   Web Hosting Platform|
-|                   |       |                   |       | (e.g., AWS, GCP, Heroku)|
-+-------------------+       +-------------------+       +-----------------------+
-```
+**ML Explainability**  
+![SHAP](https://img.shields.io/badge/SHAP-0.41%2B-red)
 
-## Features
-- **Machine Learning Model**: Uses NLP-based phishing detection.
-- **Web UI**: Interactive webpage for testing emails.
-- **API-Driven**: REST API for phishing detection.
-- **Threat Intelligence Integration**: Leverages VirusTotal API for URL analysis.
+## 🚀 Quick Start
 
-## Tech Stack
-- **Backend**: Flask (Python)
-- **Frontend**: HTML, CSS, JavaScript
-- **ML Model**: Scikit-learn, TensorFlow
-- **Deployment**: Docker, Gunicorn, Heroku/AWS/GCP
-
-## Installation & Setup
 ### Prerequisites
-- Python 3.x
-- Docker (Optional for containerized deployment)
-- Virtual environment (Recommended)
+- Python 3.10+
+- VirusTotal API key (free tier available)
 
-### Steps
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/yourusername/phishing-detection-api.git
-   cd phishing-detection-api
-   ```
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Run Locally**
-   ```bash
-   python app.py
-   ```
-4. **Run with Docker**
-   ```bash
-   docker build -t phishing-api .
-   docker run -p 5000:5000 phishing-api
-   ```
-5. **Deploy to Heroku (Example)**
-   ```bash
-   heroku create
-   git push heroku main
-   heroku open
-   ```
+### Installation
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/phishing-detection.git
+cd phishing-detection
+```
 
-## Usage
-### API Endpoint
-- **POST /predict**
-  - **Request**: `{ "email_content": "Your account is locked! Click here to verify." }`
-  - **Response**:
-    ```json
-    {
-      "prediction": "Phishing",
-      "confidence": 0.89,
-      "reasons": ["Urgent language detected", "Verification request"]
-    }
-    ```
+2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-### Web Interface
-Navigate to `http://127.0.0.1:5000` (or hosted domain) to test emails visually.
+3. Set up environment variables  
+Create `.env` file:
+```ini
+VIRUSTOTAL_API_KEY=your_api_key_here
+GOOGLE_SAFE_BROWSING_API_KEY=your_api_key_here
+```
 
-### Postman Testing
-Postman was used to test API requests and responses efficiently.
+4. Run the application
+```bash
+python app.py
+```
 
-## Future Improvements
-- Add support for **real-time email scanning**
-- Enhance ML model using **Transformer-based NLP models**
-- Improve UI/UX with **React.js**
+Visit `http://localhost:5000` in your browser to start detecting phishing attempts!
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🕵️ How It Works
 
-## Author
-Developed by [Your Name](https://github.com/yourusername). Contributions are welcome!
+### Detection Process
+1. User submits email content through web interface
+2. System checks for:
+   - Suspicious keywords (SHAP explanation)
+   - Malicious URLs (VirusTotal integration)
+   - Social engineering patterns
+3. ML model provides prediction with confidence score
+4. Interactive results show detection reasons
 
+![Detection Flow](screenshots/screenshot1.png)
+
+## 📊 Features Deep Dive
+
+### AI Explanation Engine
+```python
+def get_shap_explanation(text):
+    vectorized = vectorizer.transform([text])
+    shap_values = explainer.shap_values(vectorized)
+    return sorted(zip(words, shap_values[0].flatten()), 
+                key=lambda x: abs(x[1]), reverse=True)[:10]
+```
+*Identifies most influential words in prediction*
+
+### Threat Intelligence Integration
+- URL safety checks via VirusTotal
+- Domain reputation analysis
+- Redirect chain inspection
+
+### Real-Time Dashboard
+![Dashboard](screenshots/screenshot3.png)  
+*Track historical detection patterns and system performance*
+
+## 📚 API Documentation
+
+**Endpoint**: `/predict`  
+**Method**: POST
+
+```json
+{
+  "email_content": "Urgent! Verify your account now: https://suspect-link.com"
+}
+```
+
+**Response**:
+```json
+{
+  "prediction": "Phishing",
+  "probability": 0.92,
+  "shap_explanations": {
+    "verify": 2.34,
+    "urgent": 1.89
+  },
+  "malicious_urls": ["https://suspect-link.com"]
+}
+```
+
+## 🌟 Future Roadmap
+- [ ] Browser extension integration
+- [ ] Multi-language support
+- [ ] Advanced header analysis (SPF/DKIM)
+- [ ] Phishing attempt reporting system
+
+## 🤝 Contributing
+I welcome contributions! Please see our [Contribution Guidelines](CONTRIBUTING.md) for details.
