@@ -19,7 +19,7 @@ This folder contains the HTML templates for the AI-Powered Phishing Detection Sy
 - Provides SHAP-based word score explanations.
 - Displays URL and email header analysis results.
 
-![Results Page](screenshots/ss2.png)
+![Results Page](ss2.png)
 
 ---
 
@@ -29,7 +29,7 @@ This folder contains the HTML templates for the AI-Powered Phishing Detection Sy
 - Includes interactive charts and visual analytics.
 - Helps users track phishing threats over time.
 
-![Dashboard Page](screenshots/ss3.png)
+![Dashboard Page](ss3.png)
 
 ## Execution Flow
 1. **User accesses `index.html`** → Inputs email content or uploads a file.
