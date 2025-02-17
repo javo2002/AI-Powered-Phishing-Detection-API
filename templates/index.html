@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Phishing Detection</h1>
+        
+        <!-- Error Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <button id="theme-toggle">Toggle Light Mode</button>
+        <form action="/predict" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="email-content">Enter Email Content:</label>
+            <textarea id="email-content" name="email-content" rows="10" placeholder="Paste email content here..." required></textarea>
+            <p>Or upload a file:</p>
+            <input type="file" name="email-file" accept=".eml,.txt">
+            <button type="submit">Check Phishing</button>
+        </form>
+        <button type="button" id="sample-email">Load Sample Email</button>
+    </div>
+
+    <script>
+        // Form validation
+        function validateForm() {
+            const textarea = document.getElementById('email-content');
+            const fileInput = document.querySelector('input[type="file"]');
+            
+            if (textarea.value.trim() === '' && fileInput.files.length === 0) {
+                alert('Please enter email content or upload a file!');
+                return false;
+            }
+            return true;
+        }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        const body = document.body;
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        body.classList.toggle("light-mode", savedTheme === "light");
+        themeToggle.textContent = savedTheme === "dark" ? "Toggle Light Mode" : "Toggle Dark Mode";
+
+        themeToggle.addEventListener("click", () => {
+            body.classList.toggle("light-mode");
+            const isLight = body.classList.contains("light-mode");
+            localStorage.setItem("theme", isLight ? "light" : "dark");
+            themeToggle.textContent = isLight ? "Toggle Dark Mode" : "Toggle Light Mode";
+        });
+
+        // Sample Email
+        document.getElementById("sample-email").addEventListener("click", () => {
+            const sampleEmail = `Subject: Urgent: Verify Your Account
+Dear Customer,
+We noticed unusual activity on your account. Please verify your details:
+https://example.com/verify
+Thank you,
+Your Bank`;
+            document.getElementById("email-content").value = sampleEmail;
+        });
+    </script>
+</body>
+</html>

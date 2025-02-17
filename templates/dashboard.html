@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Threat Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* Improved Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--dark-accent);
+            border-radius: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--dark-accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            background: var(--dark-accent);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--primary);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: var(--dark-bg);
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+            display: grid;
+            grid-template-columns: 120px auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--warning);
+            border: 2px dashed var(--warning);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1>🛡️ Threat Dashboard</h1>
+            <a href="/" class="home-button">🏠 Back to Home</a>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>📊 Total Scans</h3>
+                <p class="stat-number">{{ stats.total or 0 }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>🎣 Phishing Detected</h3>
+                <p class="stat-number">{{ stats.phishing or 0 }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>🔍 Detection Rate</h3>
+                <p class="stat-number">
+                    {{ (stats.phishing/stats.total*100)|round(1) if stats.total > 0 else 0 }}%
+                </p>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart-container">
+            <h2>📈 Threat Distribution</h2>
+            {% if stats.total > 0 %}
+                <div id="pie-chart"></div>
+            {% else %}
+                <div class="no-data">No scan data available yet</div>
+            {% endif %}
+        </div>
+
+        <!-- Timeline -->
+        <div class="chart-container">
+            <h2>⏳ Recent Activity</h2>
+            <div id="timeline">
+                {% if stats.recent %}
+                    {% for entry in stats.recent %}
+                    <div class="timeline-item">
+                        <div class="timestamp">{{ entry.timestamp|datetimeformat }}</div>
+                        <div>
+                            <div class="prediction {{ 'phishing' if entry.prediction == 1 else 'legitimate' }}">
+                                {{ '⚠️ Phishing' if entry.prediction == 1 else '✅ Legitimate' }}
+                            </div>
+                            <div class="content-preview">{{ entry.content|truncate(80) }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-data">No recent activity</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- D3.js Script (Only render if data exists) -->
+    {% if stats.total > 0 %}
+    <script>
+        // ... (keep existing pie chart script but add this at the start)
+        const pieData = {
+            "Phishing": {{ stats.phishing }},
+            "Legitimate": {{ stats.total - stats.phishing }}
+        };
+
+        // Add animation
+        svg.transition()
+            .duration(1000)
+            .attrTween("d", arcTween);
+
+        function arcTween(d) {
+            const interpolate = d3.interpolate(this._current, d);
+            this._current = interpolate(0);
+            return function(t) {
+                return arc(interpolate(t));
+            };
+        }
+    </script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+
+        /* SHAP Explanation */
+        .shap-bars {
+            margin: 20px 0;
+        }
+
+        .shap-bar {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 5px;
+            background: #444;
+            border-radius: 4px;
+        }
+
+        .bar {
+            height: 20px;
+            margin: 0 10px;
+            transition: width 0.5s ease;
+        }
+
+        .bar.positive { background: #ff4500; }
+        .bar.negative { background: #00ff00; }
+
+        /* Tabs */
+        .analysis-tabs {
+            margin: 20px 0;
+            border-bottom: 2px solid #555;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #ff4500;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: #222;
+            border-radius: 8px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Original Styles */
+        .home-button {
+            display: inline-block;
+            background: #ff4500;
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .home-button:hover {
+            background: #ff5733;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: "•";
+            color: #ff4500;
+            font-size: 22px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phishing Detection Result</h1>
+        <p><strong>Email Content:</strong></p>
+        <pre>{{ email_content }}</pre>
+        <p><strong>Prediction:</strong> {{ "Phishing" if prediction == 1 else "Legitimate" }}</p>
+
+        <!-- Threat Meter -->
+        <div class="risk-meter">
+            <div class="needle" style="transform: rotate({{ (probability * 180) - 90 }}deg);"></div>
+        </div>
+
+        <!-- SHAP Explanation -->
+        {% if shap_results %}
+        <div class="shap-section">
+            <h2>SHAP WORD Score Polarities</h2>
+            <div class="shap-bars">
+                {% for word, score in shap_results %}
+                <div class="shap-bar" data-score="{{ score|abs }}">
+                    <span class="word">{{ word }}</span>
+                    <div class="bar {{ 'negative' if score < 0 else 'positive' }}"></div>
+                    <span class="score">{{ "%.2f"|format(score) }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- URL Analysis Tabs -->
+        {% if url_analysis %}
+        <div class="analysis-tabs">
+            <button class="tab active" onclick="openTab(event, 'url-analysis')">URL Analysis</button>
+            <button class="tab" onclick="openTab(event, 'headers')">Email Headers</button>
+        </div>
+
+        <!-- URL Analysis Content -->
+        <div id="url-analysis" class="tab-content active">
+            {% for analysis in url_analysis %}
+            <div class="url-report">
+                <h3>URL {{ loop.index }}</h3>
+                <p>Google Safe: {{ 'Malicious' if analysis.google_safe else 'Clean' }}</p>
+                <p>VirusTotal: {{ analysis.virustotal.status }}</p>
+                <p>Redirect Depth: {{ analysis.features.redirect_depth }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Header Analysis Content -->
+        <div id="headers" class="tab-content">
+            <p>SPF Verification: {{ 'Failed' if header_analysis.spf_fail else 'Passed' }}</p>
+            <p>DKIM Alignment: {{ 'Mismatch' if header_analysis.dkim_mismatch else 'Valid' }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Display Warning -->
+        {% if warning %}
+            <div class="warning">
+                <strong>Warning:</strong> {{ warning }}
+            </div>
+        {% endif %}
+
+        <!-- Display Reasons -->
+        {% if reasons %}
+            <p><strong>Reasons:</strong></p>
+            <ul>
+                {% for reason in reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <a href="/dashboard" class="home-button" style="margin-right: 15px; background-color: #444;">
+        View Dashboard
+        </a>
+        <!-- Back to Home Button -->
+        <a href="/" class="home-button">Back to Home</a>
+    </div>
+
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.querySelectorAll(".tab-content");
+            const tabs = document.querySelectorAll(".tab");
+
+            tabContents.forEach(content => content.classList.remove("active"));
+            tabs.forEach(tab => tab.classList.remove("active"));
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
