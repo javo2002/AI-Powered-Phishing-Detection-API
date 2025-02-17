@@ -1,5 +1,3 @@
-# README - Templates Folder
-
 This folder contains the HTML templates for the Phishing Detection web application. Each file serves a specific function within the application.
 
 ## File Structure and Purpose
