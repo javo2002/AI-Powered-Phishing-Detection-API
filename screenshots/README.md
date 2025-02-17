@@ -8,7 +8,7 @@ This folder contains the HTML templates for the AI-Powered Phishing Detection Sy
 - Includes form validation and a dark/light mode toggle.
 - Provides a sample phishing email for quick testing.
 
-![Index Page](screenshots/ss1.png)
+![Index Page](ss1.png)
 
 ---
 
