@@ -1,0 +1,174 @@
+/* styles.css */
+:root {
+    /* Dark Theme */
+    --dark-bg: #0a0a0a;
+    --dark-text: #ffffff;
+    --dark-accent: #1a1a1a;
+    
+    /* Light Theme */
+    --light-bg: #ffffff;
+    --light-text: #0a0a0a;
+    --light-accent: #f0f0f0;
+    
+    /* Universal Colors */
+    --primary: #ff4500;     /* Electric Blue */
+    --secondary: #00ff9d;   /* Neon Green */
+    --danger: #ff003c;      /* Alert Red */
+    --warning: #ffd700;     /* Warning Yellow */
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--dark-accent);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 157, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.05);
+}
+
+/* Light Mode Overrides */
+body.light-mode {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+body.light-mode .container {
+    background: var(--light-accent);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Typography */
+h1, h2, h3 {
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Form Elements */
+form {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 1rem;
+    background: var(--dark-bg);
+    border: 1px solid var(--primary);
+    color: var(--dark-text);
+    border-radius: 4px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+body.light-mode textarea {
+    background: var(--light-bg);
+    color: var(--light-text);
+    border-color: var(--primary);
+}
+
+input[type="file"] {
+    padding: 0.5rem;
+    background: var(--dark-bg);
+    border: 1px dashed var(--primary);
+    color: var(--dark-text);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Buttons */
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+/* SHAP Explanation */
+.shap-bars {
+    margin: 2rem 0;
+}
+
+.shap-bar {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 0, 60, 0.1) 0%,
+        rgba(0, 255, 157, 0.1) 100%
+    );
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Results Display */
+pre {
+    background: var(--dark-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+body.light-mode pre {
+    background: var(--light-accent);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    
+    textarea {
+        min-height: 200px;
+    }
+    
+    .risk-meter {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* Add to existing styles */
+.alert {
+    padding: 1rem;
+    background: rgba(255, 0, 60, 0.1);
+    border-left: 4px solid var(--danger);
+    color: var(--danger);
+    margin: 1rem 0;
+    border-radius: 4px;
+}
