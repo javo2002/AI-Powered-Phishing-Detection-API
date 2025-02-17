@@ -23,8 +23,8 @@ vectorizer = joblib.load("models/tfidf_vectorizer.pkl")  # Load TF-IDF vectorize
 explainer = shap.LinearExplainer(model, vectorizer.transform([""] * 100))
 
 # API Config
-GOOGLE_API_KEY = "AIzaSyBptSBJJFIONmUiMNhKaCjHdT1heT5U"
-VIRUSTOTAL_API_KEY = "eb052f6f839b5e13e34774f1645401d8978f6372d563c33d87d17d5f0420a48a"
+GOOGLE_API_KEY = "your_key"
+VIRUSTOTAL_API_KEY = "your_key"
 
 
 # Configuration
