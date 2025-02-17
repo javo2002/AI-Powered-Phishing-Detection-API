@@ -1,4 +1,3 @@
-```markdown
 # 📧 AI-Powered Phishing Detection System
 
 ![Demo](screenshots/screenshot2.png)  
@@ -77,7 +76,7 @@ Visit `http://localhost:5000` in your browser to start detecting phishing attemp
 def get_shap_explanation(text):
     vectorized = vectorizer.transform([text])
     shap_values = explainer.shap_values(vectorized)
-    return sorted(zip(words, shap_values[0].flatten()), 
+    return sorted(zip(words, shap_values[0].flatten()),
                 key=lambda x: abs(x[1]), reverse=True)[:10]
 ```
 *Identifies most influential words in prediction*
@@ -123,3 +122,4 @@ def get_shap_explanation(text):
 
 ## 🤝 Contributing
 I welcome contributions! Please see our [Contribution Guidelines](CONTRIBUTING.md) for details.
+
